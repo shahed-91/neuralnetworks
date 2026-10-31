@@ -2,7 +2,7 @@
 
 ## Live Website
 
-**https://REPLACE-WITH-YOUR-LIVE-URL**
+**https://neuralnetworkkk.netlify.app/**
 
 ## What the Website Teaches
 
