@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Neuron: How Does Something Learn?</title>
+<meta name="description" content="An interactive journey from the biological neuron to the artificial neuron.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Young+Serif&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header class="site-header">
+  <a class="brand" href="index.html">Neuron</a>
+  <nav aria-label="Pages">
+    <a href="index.html" aria-current="page">The biological beginning</a>
+    <a href="network.html">Inside the artificial mind</a>
+  </nav>
+</header>
+<main>
+  <section class="hero">
+    <div class="wrap">
+      <h1>How does something learn?</h1>
+      <p class="lede">Remember learning to ride a bike? At first you wobbled and fell. Nobody handed you a rulebook. But after enough tries, your body just knew what to do.</p>
+      <p class="lede">So what changed? The answer is hiding inside your head, in a tiny cell called a neuron. Let's meet one, and then teach a computer the same trick.</p>
+      <p><a href="#biological-section">Let's look inside your head</a></p>
+    </div>
+  </section>
+
+  <section class="band band-dark" id="biological-section" aria-labelledby="bio-heading">
+    <div class="wrap split wide">
+      <figure>
+        <svg id="biological-neuron" viewBox="0 0 600 320" role="group" aria-label="Diagram of a biological neuron. Select a part to learn about it.">
+          <g class="part" data-part="dendrites" tabindex="0" role="button" aria-label="Dendrites">
+            <path d="M240 150C190 130 150 100 90 70M150 100C130 95 110 100 60 110M90 70C80 50 70 40 50 30M240 160C180 160 130 170 50 170M150 168C130 200 110 215 70 240M240 172C200 200 170 240 120 285"/>
+          </g>
+          <g class="part" data-part="soma" tabindex="0" role="button" aria-label="Cell body">
+            <circle class="fill" cx="280" cy="160" r="46"/>
+            <circle cx="280" cy="160" r="16"/>
+          </g>
+          <g class="part" data-part="axon" tabindex="0" role="button" aria-label="Axon">
+            <path d="M326 160C380 160 420 160 480 160" style="stroke-width:8"/>
+          </g>
+          <g class="part" data-part="synapse" tabindex="0" role="button" aria-label="Synapse">
+            <path d="M480 160L520 120M480 160L525 160M480 160L520 205"/>
+            <circle cx="520" cy="120" r="9"/><circle cx="525" cy="160" r="9"/><circle cx="520" cy="205" r="9"/>
+            <path d="M570 85Q550 160 570 240" style="stroke:#6f8672;stroke-width:10"/>
+          </g>
+          <path id="signal-route" d="M60 110L150 100L240 150L280 160L326 160L480 160L525 160" fill="none"/>
+          <circle id="signal-pulse" r="9" cx="60" cy="110" fill="#fff" stroke="#e3a94b" stroke-width="4" opacity="0"/>
+        </svg>
+        <figcaption>A simplified drawing. Real neurons are far more intricate.</figcaption>
+      </figure>
+      <div>
+        <h2 id="bio-heading">A tiny messenger in your head</h2>
+        <p>Imagine a kid in a huge classroom. Friends whisper messages from every side. If enough whispers say "yes", the kid jumps up and shouts a message down the hall to the next kid.</p>
+        <p>That kid is a neuron. You have about 86 billion of them, whispering and shouting to each other right now. Poke each part of the drawing to see who does what.</p>
+        <div class="panel" aria-live="polite">
+          <h3 id="part-title">Select a part</h3>
+          <p id="part-text">Tap any part of the drawing, or press the button to send a message through the whole cell.</p>
+        </div>
+        <div class="actions"><button type="button" id="fire-button">Send a signal</button></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="band band-sage" aria-labelledby="bridge-heading">
+    <div class="wrap">
+      <h2 id="bridge-heading">Can a computer do the same trick?</h2>
+      <p>Scientists asked: what if we keep only the big idea? A neuron listens to lots of messages, decides some matter more than others, adds them up, and gives one answer. That is simple enough to write as numbers. Drag the slider and watch the living cell turn into a maths machine.</p>
+      <p class="term">The grown-up word: the maths version is called an <strong>artificial neuron</strong>.</p>
+      <figure>
+        <svg id="morph-diagram" viewBox="0 0 600 260" role="img" aria-label="A biological neuron gradually turning into an artificial neuron">
+          <g id="morph-biological" fill="none" stroke="#3b6b6f" stroke-width="6" stroke-linecap="round">
+            <path d="M50 50C150 50 170 120 255 130M50 130C150 130 200 130 255 130M50 210C150 210 170 140 255 130M345 130L550 130" />
+            <circle cx="300" cy="130" r="50" fill="#3b6b6f"/>
+            <circle cx="300" cy="130" r="16" stroke="#dde4d3" stroke-width="4"/>
+          </g>
+          <g id="morph-artificial" opacity="0" font-family="Atkinson Hyperlegible, sans-serif" font-size="17" text-anchor="middle">
+            <g stroke="#262b2a" stroke-width="2"><path d="M66 50L252 118M66 130L250 130M66 210L252 142M350 130L520 130"/></g>
+            <g fill="#fbf7ee" stroke="#262b2a" stroke-width="2"><circle cx="50" cy="50" r="17"/><circle cx="50" cy="130" r="17"/><circle cx="50" cy="210" r="17"/></g>
+            <circle cx="300" cy="130" r="50" fill="#c4872a" stroke="#262b2a" stroke-width="2"/>
+            <g fill="#262b2a"><text x="50" y="56">x1</text><text x="50" y="136">x2</text><text x="50" y="216">x3</text><text x="300" y="136" font-size="22">sum, f</text><text x="170" y="82">w1</text><text x="160" y="120">w2</text><text x="170" y="178">w3</text><text x="540" y="124">output</text></g>
+          </g>
+        </svg>
+        <figcaption id="morph-caption" aria-live="polite">A biological neuron.</figcaption>
+      </figure>
+      <div class="control" style="max-width:34rem"><label for="morph-slider">Biology to maths</label><input type="range" id="morph-slider" min="0" max="100" value="0"><output for="morph-slider" id="morph-value">0%</output></div>
+      <table class="linked">
+        <caption class="visually-hidden" style="position:absolute;left:-9999px">How each biological part maps to the artificial neuron</caption>
+        <thead><tr><th scope="col">In the cell</th><th scope="col">In the model</th></tr></thead>
+        <tbody>
+          <tr><th scope="row">Dendrites</th><td>Inputs</td></tr>
+          <tr><th scope="row">Synapse strength</th><td>Weights</td></tr>
+          <tr><th scope="row">Cell body adding things up</th><td>Weighted sum, plus a bias</td></tr>
+          <tr><th scope="row">Firing</th><td>Activation function</td></tr>
+          <tr><th scope="row">Axon</th><td>Output</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="band" aria-labelledby="artificial-heading">
+    <div class="wrap split">
+      <div>
+        <h2 id="artificial-heading">Should I go to the park?</h2>
+        <p>Let's build a neuron that makes a choice you make every day. It gets a few clues, decides how much each one matters, and gives an answer.</p>
+        <ol class="concepts">
+          <li><strong>The clues.</strong> Is it sunny? Are my friends going? Each clue is a number from 0 (no) to 1 (yes).<span class="term">The grown-up word: inputs</span><em>Where it stops: a real neuron gets chemical signals, not tidy numbers.</em></li>
+          <li><strong>How much each clue matters.</strong> Maybe sunshine matters a lot to you, and friends matter even more. A clue you dislike can even count against going.<span class="term">The grown-up word: weights</span><em>Where it stops: in a brain, connections strengthen by growing and chemistry. A computer just changes a number.</em></li>
+          <li><strong>How much you already want to go.</strong> Some days you would go to the park no matter what.<span class="term">The grown-up word: bias</span><em>Where it stops: it is a rough stand-in for how ready a real cell is to fire.</em></li>
+          <li><strong>The decider.</strong> Multiply each clue by how much it matters, add them up, add your head start. Then turn that total into an answer between 0 (no) and 1 (yes), like a dimmer instead of a switch.<span class="term">The grown-up words: weighted sum and activation function</span><em>Where it stops: real neurons fire spikes over time, not a smooth dimmer.</em></li>
+          <li><strong>The answer.</strong> One number that gets passed on.<span class="term">The grown-up word: output</span></li>
+        </ol>
+      </div>
+      <div class="panel">
+        <h3>Try it: should I go?</h3>
+        <div class="control"><label for="x1">Sunny?</label><input type="range" id="x1" min="0" max="1" step="0.05" value="0.8"><output id="x1-value" for="x1"></output></div>
+        <div class="control"><label for="x2">Friends going?</label><input type="range" id="x2" min="0" max="1" step="0.05" value="0.3"><output id="x2-value" for="x2"></output></div>
+        <div class="control"><label for="w1">Sun matters</label><input type="range" id="w1" min="-2" max="2" step="0.1" value="1.2"><output id="w1-value" for="w1"></output></div>
+        <div class="control"><label for="w2">Friends matter</label><input type="range" id="w2" min="-2" max="2" step="0.1" value="-0.7"><output id="w2-value" for="w2"></output></div>
+        <div class="control"><label for="bias">Love the park</label><input type="range" id="bias" min="-2" max="2" step="0.1" value="0.2"><output id="bias-value" for="bias"></output></div>
+        <p class="readout" id="sum-line"></p>
+        <p class="readout" id="output-line"></p>
+        <div class="meter" role="presentation"><span id="output-meter"></span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="band band-dark next">
+    <div class="wrap">
+      <p class="lede">One neuron makes one small decision. What happens when thousands are wired together?</p>
+      <a href="network.html">Go inside the artificial mind</a>
+    </div>
+  </section>
+</main>
+<script src="shared.js"></script>
+<script src="neuron.js"></script>
+</body>
+</html>

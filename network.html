@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Neuron: Inside the Artificial Mind</title>
+<meta name="description" content="Connect artificial neurons into a network, watch it predict, and see how training improves it.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Young+Serif&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header class="site-header">
+  <a class="brand" href="index.html">Neuron</a>
+  <nav aria-label="Pages">
+    <a href="index.html">The biological beginning</a>
+    <a href="network.html" aria-current="page">Inside the artificial mind</a>
+  </nav>
+</header>
+<main>
+  <section class="hero">
+    <div class="wrap">
+      <h1>Inside the artificial mind</h1>
+      <p class="lede">One neuron is one kid making one choice. A network is a whole class passing notes, with each row of kids working on a different part of the puzzle.</p>
+    </div>
+  </section>
+
+  <section class="band band-sage" aria-labelledby="network-heading">
+    <div class="wrap split wide">
+      <figure>
+        <svg id="network-diagram" viewBox="0 0 600 340" role="group" aria-label="A neural network with 3 input neurons, 4 hidden neurons and 2 output neurons. Select a neuron to see its calculation."></svg>
+        <figcaption>Teal lines carry positive weights, amber lines negative ones. Thicker means stronger. Darker neurons are more active.</figcaption>
+      </figure>
+      <div>
+        <h2 id="network-heading">A class that tells cats from dogs</h2>
+        <p>Row one gets clues: are the ears pointy, is the snout long, are there whiskers? Row two, the thinkers, each look for a pattern in those clues. Row three gives the answer: cat or dog? Slide the clues and watch the notes pass forward.</p>
+        <p class="term">The grown-up words: <strong>input layer</strong>, <strong>hidden layer</strong> (hidden because nobody sees what it is thinking) and <strong>output layer</strong>. Passing notes forward is called <strong>forward propagation</strong>.</p>
+        <p>Real networks learn their own patterns. Here the numbers are set by hand so you can see the idea.</p>
+        <div class="panel">
+          <div class="control"><label for="input-0">Pointy ears</label><input type="range" id="input-0" min="0" max="1" step="0.05" value="0.8"><output id="input-0-value" for="input-0"></output></div>
+          <div class="control"><label for="input-1">Long snout</label><input type="range" id="input-1" min="0" max="1" step="0.05" value="0.2"><output id="input-1-value" for="input-1"></output></div>
+          <div class="control"><label for="input-2">Whiskers</label><input type="range" id="input-2" min="0" max="1" step="0.05" value="0.6"><output id="input-2-value" for="input-2"></output></div>
+          <div class="actions"><button type="button" id="send-button">Send the signal</button></div>
+          <p class="readout" id="output-a-label"></p><div class="meter" role="presentation"><span id="output-a-meter"></span></div>
+          <p class="readout" id="output-b-label"></p><div class="meter" role="presentation"><span id="output-b-meter"></span></div>
+        </div>
+      </div>
+    </div>
+    <div class="wrap" style="margin-top:2.5rem">
+      <div class="panel" aria-live="polite">
+        <h3 id="detail-title">Select a neuron</h3>
+        <p class="readout" id="detail-sum">Choose any circle in the diagram to see how its value is calculated.</p>
+        <p class="readout" id="detail-output"></p>
+      </div>
+    </div>
+  </section>
+
+  <section class="band" aria-labelledby="sum-heading">
+    <div class="wrap split">
+      <div>
+        <h2 id="sum-heading">How one thinker decides</h2>
+        <p>Each kid in the middle row does the same little job. Every clue gets a vote, but some votes are heavier than others. Add up the votes, add a head start, and you get one number. Then the kid squashes that number into an answer from 0 to 1: how excited am I?</p>
+        <dl class="terms">
+          <dt>x</dt><dd>an input, the number arriving from the layer before</dd>
+          <dt>w</dt><dd>a weight, how strongly that input counts</dd>
+          <dt>b</dt><dd>the bias, a fixed nudge up or down</dd>
+          <dt>z</dt><dd>the raw total before squashing</dd>
+        </dl>
+        <p class="equation" aria-label="z equals w times x plus b">z = wx + b</p>
+        <p>With three clues it is the same idea, just longer: z = w1x1 + w2x2 + w3x3 + b. The squashing step is the <strong>activation function</strong>. Without it, a network could only give straight-line answers. With it, the network can learn curvy, tricky ones.</p>
+      </div>
+      <div class="panel">
+        <h3>Choose the hidden-layer activation</h3>
+        <label for="activation-choice">Function</label>
+        <select id="activation-choice"><option value="sigmoid">Sigmoid: smooth, 0 to 1</option><option value="relu">ReLU: zero, then straight</option><option value="tanh">Tanh: smooth, &minus;1 to 1</option></select>
+        <svg viewBox="0 0 200 120" role="img" aria-label="Graph of the chosen activation function" style="margin-top:1rem">
+          <path d="M10 85H190M100 10V110" stroke="#8a8f84" stroke-width="1" fill="none"/>
+          <path id="activation-curve" fill="none" stroke="#c4872a" stroke-width="3"/>
+        </svg>
+        <p class="readout">The horizontal axis is z, the vertical axis is the neuron's output. Changing it above changes the network's behaviour. The output layer always uses sigmoid.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="band band-dark" aria-labelledby="training-heading">
+    <div class="wrap split">
+      <figure>
+        <svg id="training-plot" viewBox="0 0 400 260" role="img" aria-label="Scatter of four data points with a straight line that a single neuron adjusts to fit them">
+          <path d="M40 230H390M40 230V15" stroke="#8a948f" stroke-width="1.5" fill="none"/>
+          <g id="error-lines" stroke="#e3a94b" stroke-width="2" stroke-dasharray="4 3"></g>
+          <line id="fit-line" stroke="#a8b79d" stroke-width="4" stroke-linecap="round"/>
+          <g id="data-points" fill="#efe6d2"></g>
+        </svg>
+        <figcaption>The dots are what is true. The line is what the neuron predicts. Dashed amber lines are its mistakes.</figcaption>
+      </figure>
+      <div>
+        <h2 id="training-heading">Guessing, then getting better</h2>
+        <p><strong>Making a prediction</strong> means using what the neuron knows right now. <strong>Learning</strong> is different: it guesses, finds out how wrong it was, and adjusts, like playing hot and cold.</p>
+        <p>Here is a secret rule game. The dots are examples: put in 1 and the answer is about 2, put in 2 and it is about 4. The neuron has to work out the rule. Press train and watch the line chase the dots.</p>
+        <p class="term">The grown-up words: how wrong the neuron is, is the <strong>loss</strong>. Nudging the weight and bias to shrink it is <strong>gradient descent</strong>.</p>
+        <div class="panel">
+          <p class="readout" id="model-line"></p>
+          <p class="readout" id="loss-line"></p>
+          <div class="control"><label for="predict-input">Ask: x</label><input type="range" id="predict-input" min="0" max="5" step="0.1" value="2.5"><output id="predict-value" for="predict-input"></output></div>
+          <p class="readout" id="predict-line"></p>
+          <div class="actions">
+            <button type="button" id="step-button">Train one step</button>
+            <button type="button" id="run-button" class="quiet">Train 40 steps</button>
+            <button type="button" id="reset-button" class="quiet">Reset</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="band" aria-labelledby="limits-heading">
+    <div class="wrap">
+      <h2 id="limits-heading">What networks do well, and what they do not</h2>
+      <div class="pair">
+        <div>
+          <h3>Where they help</h3>
+          <ul>
+            <li>Recognising images, such as faces and medical scans.</li>
+            <li>Turning speech into text and one language into another.</li>
+            <li>Recommending music, spotting fraud, forecasting weather.</li>
+            <li>Generating text and pictures after training on vast examples.</li>
+          </ul>
+        </div>
+        <div>
+          <h3>Where they fall short</h3>
+          <ul>
+            <li>They learn from examples, so biased or poor data gives biased or poor results.</li>
+            <li>They can be confidently wrong on inputs unlike anything they saw in training.</li>
+            <li>It is often hard to explain why a network gave a particular answer.</li>
+            <li>They find patterns. They do not understand meaning the way a person does.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="band band-dark next">
+    <div class="wrap">
+      <p class="lede">You have followed a signal from a living cell to a trained model.</p>
+      <a href="index.html">Return to the biological beginning</a>
+    </div>
+  </section>
+</main>
+<script src="shared.js"></script>
+<script src="network.js"></script>
+</body>
+</html>
